@@ -1,0 +1,2 @@
+# fibseq
+Fibonacci calculator.
