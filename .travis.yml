@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t feload/fibsec-client-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true feload/fibsec-client-test npm test
+
+after_success:
+  - docker build -t feload/fibsec-client ./client
+  - docker build -t feload/fibsec-nginx ./nginx
+  - docker build -t feload/fibsec-server ./server
+  - docker build -t feload/fibsec-worker ./worker
+
+  # Log in into docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take images and push them into docker-hub.
+  - docker push feload/fibsec-client
+  - docker push feload/fibsec-nginx
+  - docker push feload/fibsec-server
+  - docker push feload/fibsec-worker
