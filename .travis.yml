@@ -21,3 +21,17 @@ after_success:
   - docker push feload/fibsec-nginx
   - docker push feload/fibsec-server
   - docker push feload/fibsec-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-west-1"
+  app: "fibseq-docker"
+  env: "FibseqDocker-env"
+  bucket_name: "elasticbeanstalk-us-west-1-184462656838"
+  bucket_path: "fibseq-docker"
+  on:
+    branch: master
+  access_key_id:
+    secure: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY

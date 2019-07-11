@@ -1,0 +1,38 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "ContainerDefinitions": [
+        {
+            "name": "client",
+            "image": "feload/fibseq-client",
+            "hostname": "client",
+            "essential": false
+        },
+        {
+            "name": "server",
+            "image": "feload/fibseq-server",
+            "hostname": "api",
+            "essential": false
+        },
+        {
+            "name": "worker",
+            "image": "feload/fibseq-worker",
+            "hostname": "worker",
+            "essential": false
+        },
+        {
+            "name": "nginx",
+            "image": "feload/fibseq-nginx",
+            "hostname": "nginx",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": [
+                "client", "server"
+            ]
+        }
+    ]
+}
