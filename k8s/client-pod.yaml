@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
     - name: client
-      image: feload/fibseq-client
+      image: feload/fibseq-worker
       ports:
         - containerPort: 3000
