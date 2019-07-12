@@ -3,35 +3,35 @@ services:
   - docker
 
 before_install:
-  - docker build -t feload/fibsec-client-test -f ./client/Dockerfile.dev ./client
+  - docker build -t feload/fibseq-client-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true feload/fibsec-client-test npm test
+  - docker run -e CI=true feload/fibseq-client-test npm test
 
 after_success:
-  - docker build -t feload/fibsec-client ./client
-  - docker build -t feload/fibsec-nginx ./nginx
-  - docker build -t feload/fibsec-server ./server
-  - docker build -t feload/fibsec-worker ./worker
+  - docker build -t feload/fibseq-client ./client
+  - docker build -t feload/fibseq-nginx ./nginx
+  - docker build -t feload/fibseq-server ./server
+  - docker build -t feload/fibseq-worker ./worker
 
   # Log in into docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take images and push them into docker-hub.
-  - docker push feload/fibsec-client
-  - docker push feload/fibsec-nginx
-  - docker push feload/fibsec-server
-  - docker push feload/fibsec-worker
+  - docker push feload/fibseq-client
+  - docker push feload/fibseq-nginx
+  - docker push feload/fibseq-server
+  - docker push feload/fibseq-worker
 
-deploy:
-  provider: elasticbeanstalk
-  region: "us-west-1"
-  app: "fibseq-docker"
-  env: "FibseqDocker-env"
-  bucket_name: "elasticbeanstalk-us-west-1-184462656838"
-  bucket_path: "fibseq-docker"
-  on:
-    branch: master
-  access_key_id:
-    secure: $AWS_ACCESS_KEY
-  secret_access_key:
-    secure: $AWS_SECRET_KEY
+# deploy:
+#   provider: elasticbeanstalk
+#   region: "us-west-1"
+#   app: "fibseq-docker"
+#   env: "FibseqDocker-env"
+#   bucket_name: "elasticbeanstalk-us-west-1-184462656838"
+#   bucket_path: "fibseq-docker"
+#   on:
+#     branch: master
+#   access_key_id:
+#     secure: $AWS_ACCESS_KEY
+#   secret_access_key:
+#     secure: $AWS_SECRET_KEY
